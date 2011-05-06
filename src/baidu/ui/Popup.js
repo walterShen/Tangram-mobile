@@ -4,8 +4,6 @@
  */
 
 ///import baidu.ui.createUI;
-///import baidu.dom.getStyle;
-///import baidu.dom.setStyle;
 ///import baidu.dom.setStyles;
 ///import baidu.dom._styleFilter.px;
 ///import baidu.fx.fade;
@@ -29,6 +27,8 @@ baidu.ui.Popup = baidu.ui.createUI(function() {
     mask: false,
 
     zIndex: 999,
+
+    showFx: baidu.fx.fade,
 
     /**
      * 数据初始化
@@ -58,9 +58,7 @@ baidu.ui.Popup = baidu.ui.createUI(function() {
             'position': 'absolute',
             'zIndex': me.zIndex
         });
-
-        me.visible = false;
-
+        
         if (me.mask && !baidu.ui.Mask._instance) {
             me._addMask();
         }
@@ -115,22 +113,25 @@ baidu.ui.Popup = baidu.ui.createUI(function() {
     /**
      * 显示弹出层
      */
-    show: function() {
+    open: function() {
         var me = this,
             element = me.element;
         
         baidu.dom.show(element);
 
-        me.visible = true;
         
         if (me.mask) {
             baidu.ui.Mask._instance.show();
         }
         
         me.showFx(element, {
-            'duration': 1000,
-            'out': false
+            'duration': 800,
+            'out': false,
+            'onfinish': function(){
+                me.dispatchEvent('open');
+            } 
         });
+
     },
 
     /**
@@ -138,32 +139,20 @@ baidu.ui.Popup = baidu.ui.createUI(function() {
      */
     close: function() {
         var me = this,
-            element = me.element,
-            onClose = function(){
-               baidu.dom.hide(element);
-               me.visible = false;
-            };
+            element = me.element;
         
         if (me.mask) {
             baidu.ui.Mask._instance.close();
         }
 
-        if (me.visible) {
-           me.showFx(element, {
-               'duration': 500,
-               'out': true, 
-               'onfinish': onClose
-           });
-        }
+        me.showFx(element, {
+            'duration': 500,
+            'out': true, 
+            'onfinish': function(){
+               baidu.dom.hide(element);
+               me.dispatchEvent('close');
+            }
+       });
     },
 
-    /**
-     * 动画效果 
-     * @param   {HTMLElement}  element     目标元素
-     * @param   {Object}       [options]   选项 
-     *          参考baidu.fx.fade参数列表
-     */
-     showFx: function(element, options) {
-        baidu.fx.fade(element, options);
-     }
 });

@@ -23,7 +23,6 @@ baidu.ui.Button.register(function(me){
       }
       me.on(me.element, 'tap', function(){
          me.parentPopup.close();
-         me.parentPopup.dispatchEvent('close');
       });
    });
 });

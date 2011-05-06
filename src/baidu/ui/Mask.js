@@ -4,11 +4,9 @@
  */
 
 ///import baidu.ui.createUI;
-///import baidu.dom.getStyle;
 ///import baidu.dom._styleFixer.opacity;
 ///import baidu.dom._styleFilter.px;
 ///import baidu.dom.setStyles;
-///import baidu.event.turn;
 ///import baidu.page.getWidth;
 ///import baidu.page.getHeight;
 ///import baidu.dom.show;
@@ -82,17 +80,21 @@ baidu.ui.Mask = baidu.ui.createUI(function() {
     /**
      * 显示遮罩层
      */
-    show: function() {
+    open: function() {
         var me = this;
         
         me._update();
         baidu.dom.show(me.element);
+        me.dispatchEvent('open');
     },
 
     /**
      * 关闭遮罩层
      */
     close: function() {
-        baidu.dom.hide(this.element);
+        var me = this;
+
+        baidu.dom.hide(me.element);
+        me.dispatchEvent('close');
     }
 });
