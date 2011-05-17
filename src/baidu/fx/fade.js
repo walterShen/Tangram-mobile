@@ -10,12 +10,10 @@
 
 /**
  * 淡入淡出效果
- * @param {HTMLelem} elem  目标元素
- * @param {Object} options 选项 
- *        参考baidu.fx.start，忽略from to参数，新增：
- *        {
- *            out : {boolean} false    //运动类型是否为out(从正常显示运动到消失)
- *        }
+ * @param {DOMElement} elem  目标元素
+ * @param {Object} [options] 选项 
+ * @config {Boolean} [out = false] 运动类型是否为out(从正常显示运动到消失)
+ * @return {DOMElement} 目标元素
  */
 baidu.fx.fade = function(elem, options) {
     var out = options && options.out;

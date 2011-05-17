@@ -16,6 +16,7 @@
  * @param {array} to      目标位置[x,y]
  * @param {array} from  初始位置[x,y] (可选)
  * @param {Object} options 选项 参照baidu.fx.start
+ * @return {DOMElement} 目标元素
  */
 baidu.fx.translate = function(elem, to, from, options) {
     var getTranslate = baidu.fx.getTranslate;

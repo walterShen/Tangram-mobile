@@ -17,6 +17,7 @@
  * 动画停止方法
  * @param {HTMLelem} elem  目标元素
  * @param {boolean} gotoEnd 是否跳至动画结束状态(会触发onfinish)
+ * @return {DOMElement} 目标元素
  */
 baidu.fx.stop = function(elem, gotoEnd) {
     var elem = baidu.dom.g(elem),

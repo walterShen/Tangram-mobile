@@ -15,6 +15,7 @@
  * @param {array} to      目标缩放尺度[x,y,z] (可以只传[x] [x,y])
  * @param {array} from  初始缩放尺度[x,y,z] (可选)
  * @param {Object} options 选项 参照baidu.fx.start
+ * @return {DOMElement} 目标元素
  */
 baidu.fx.scale = function(elem, to, from, options) {
     var 

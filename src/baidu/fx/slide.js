@@ -12,11 +12,9 @@
  *       参考自sencha touch
  * @param {HTMLelem} elem  目标元素
  * @param {Object} options 选项 
- *        参考baidu.fx.start，忽略from to参数，新增：
- *        {
- *            out : {boolean} false    //运动类型是否为out(从正常显示运动到消失)
- *            direction : {string}  "left" || "right" || "up" || "down"  //运动方向
- *        }
+ * @config {Boolean} [out = false] 运动类型是否为out(从正常显示运动到消失)
+ * @config {String} [direction = 'left'] 运动方向 "left" || "right" || "up" || "down"
+ * @return {DOMElement} 目标元素
  */
 baidu.fx.slide = function(elem, options) {
     var

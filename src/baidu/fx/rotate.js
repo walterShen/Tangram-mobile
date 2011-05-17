@@ -15,6 +15,7 @@
  * @param {number} to      目标角度
  * @param {number} from  初始角度(可选)
  * @param {Object} options 选项 参照baidu.fx.start
+ * @return {DOMElement} 目标元素
  */
 baidu.fx.rotate = function(elem, to, from, options) {
     options = baidu.object.extend(options || {}, {

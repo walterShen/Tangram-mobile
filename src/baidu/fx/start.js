@@ -12,17 +12,16 @@
 
 /**
  * 基础动画方法
- * @param {HTMLelem} elem  目标元素
- * @param {Object} options 选项
- *     {
- *         onstart : function() {},     //动画开始前执行
- *         onfinish : function() {},     //动画结束后执行
- *         easing : "",                    //动画缓动  ease | linear | ease-in | ease-out | ease-in-out | step-start | step-end 
- *         duration : 800,              //动画持续时间，单位ms
- *         from : {},                    //初始样式，例：{width: "100px"}
- *         to : {},                       //目标样式
- *         delay : 0                     //延迟开始时间，单位ms
- *     }
+ * @param {DOMElement} elem  目标元素
+ * @param {Object} [options] 选项
+ * @config {Function} [onstart] 动画开始前执行
+ * @config {Function} [onfinish] 动画结束后执行
+ * @config {String} [easing = 'ease'] 动画缓动  ease | linear | ease-in | ease-out | ease-in-out | step-start | step-end 
+ * @config {Number} [duration = 800] 动画持续时间，单位ms
+ * @config {Object} [from] 初始样式，例：{width: "100px"}
+ * @config {Object} [to] 目标样式
+ * @config {Number} [delay = 0] 延迟开始时间，单位ms
+ * @return {DOMElement} 目标元素
  */
 baidu.fx.start = function(elem, options) {
     var 
