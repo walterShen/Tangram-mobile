@@ -15,28 +15,26 @@
  * @param {Function}   fn 回调函数
  */
 baidu.page.hideBar = function (fn) {
-    function setBody() {
-        var bigHeight = Math.max(window.innerHeight, window.innerWidth) * 2;
-        baidu.dom.setStyle(document.body, 'height', bigHeight);
-    }
+	function setBody() {//保证body有足够的高度
+		var bigHeight = Math.max(window.innerHeight, window.innerWidth) * 2;
+		baidu.dom.setStyle(document.body, 'height', bigHeight);
+	}
 
-    function hideFunc() {
-        if(!window.pageYOffset) {
-            setBody();
+	function hideFunc() {
+		if(!window.pageYOffset) {
+			setBody();
+			setTimeout( function() {
+				window.scrollTo(0, 1);
+				setTimeout( function() {
+					window.scrollTo(0, 1);
+					baidu.dom.setStyle(document.body, 'height', window.innerHeight);//还原body高度
+					fn && fn();
+				}, 100);
+			}, 100);
+		} else {
+			fn && fn();
+		}
+	}
 
-            setTimeout( function() {
-                window.scrollTo(0, 1);
-                
-                if(fn) {
-                    setTimeout( function() {
-                        fn();
-                    }, 100)
-                }
-            }, 20);
-        }else{
-            fn && fn();
-        }
-    }
-
-    baidu.dom.ready(hideFunc);
+	baidu.dom.ready(hideFunc);
 };
