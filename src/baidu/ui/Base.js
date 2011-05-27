@@ -104,7 +104,7 @@ baidu.ui.Base = {
      */
     on: function(elem, type, listener){
         if(baidu.lang.isString(listener) && !this[listener]) {
-            return;
+            return null;
         }
 
         var me = this,

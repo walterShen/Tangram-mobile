@@ -12,7 +12,6 @@
 
 /**
  * Scroller类
- *         参考自iScroll http://cubiq.org/iscroll
  * @param {String|HTMLElment} 目标元素
  * @param {Object} options 选项
  * @return baidu.ui.Scroller实例
@@ -34,10 +33,11 @@ baidu.ui.Scroller = baidu.ui.createUI( function(options) {
         var me = this;
 
         baidu.ui.Base._setup.call(me);
-        me.wrapper = me.element.parentNode;
+        me.content = me.roles.content ? 
+        	me.roles.content[0].element : me.element.children[0];
         me.x = 0;
         me.y = 0;
-        me._update();
+        me.update();
         me.dispatchEvent('setup');
     },
     
@@ -47,24 +47,24 @@ baidu.ui.Scroller = baidu.ui.createUI( function(options) {
      */
     _init: function() {
         var me = this,
-            element = me.element;
+            element = me.element,
+            content = me.content;
         
         baidu.ui.Base._init.call(me);
         
-        baidu.setStyles(element, {
+        baidu.setStyles(content, {
             webkitTransitionProperty : '-webkit-transform',
             webkitTransitionTimingFunction : 'cubic-bezier(0,0,0.25,1)',
             webkitTransitionDuration : '0',
             webkitTransform : baidu.fx.getTranslate(0,0)
         });
         
-        baidu.setStyle(me.wrapper, "overflow", "hidden");
+        baidu.setStyle(element, "overflow", "hidden");
         
-        me.on(element, 'touchstart', '_onTouchStart');
-        me.on(element, 'touchmove', '_onTouchMove');
-        me.on(element, 'touchend', '_onTouchEnd');
-
-        me.on(element, 'DOMSubtreeModified', '_onDOMModified');
+        me.on(content, 'touchstart', '_onTouchStart');
+        me.on(content, 'touchmove', '_onTouchMove');
+        me.on(content, 'touchend', '_onTouchEnd');
+        me.on(content, 'DOMSubtreeModified', '_onDOMModified');
         
         me.dispatchEvent("onload");
     },
@@ -72,13 +72,15 @@ baidu.ui.Scroller = baidu.ui.createUI( function(options) {
     /**
      * 更新区域信息
      */
-    _update : function() {
-        var me = this;
+    update : function() {
+        var me = this,
+        	element = me.element,
+        	content = me.content;
 
-        me.wrapperWidth = me.wrapper.clientWidth;
-        me.wrapperHeight = me.wrapper.clientHeight;
-        me.elemWidth = me.element.offsetWidth;
-        me.elemHeight = me.element.offsetHeight;
+        me.wrapperWidth = element.clientWidth;
+        me.wrapperHeight = element.clientHeight;
+        me.elemWidth = content.offsetWidth;
+        me.elemHeight = content.offsetHeight;
 
         me.minScrollX = me.wrapperWidth - me.elemWidth;
         me.minScrollY = me.wrapperHeight - me.elemHeight;
@@ -94,8 +96,8 @@ baidu.ui.Scroller = baidu.ui.createUI( function(options) {
      */
     _onDOMModified : function(e) {
         var me = this;
-        if (me.element.offsetHeight != me.elemHeight) {
-            me._update();
+        if (me.content.offsetHeight != me.elemHeight) {
+            me.update();
         }
     },
     
@@ -107,11 +109,14 @@ baidu.ui.Scroller = baidu.ui.createUI( function(options) {
     _onTouchStart : function(e) {
         var me = this,
             touch = e.targetTouches ? e.targetTouches[0] : e,
-            matrix = new WebKitCSSMatrix(window.getComputedStyle(me.element).webkitTransform);
+            matrix = new WebKitCSSMatrix(window.getComputedStyle(me.content).webkitTransform);
 
         //获取滚动元素的translateX translateY值，让它定位到这个位置
-        me._setPosition(matrix.e, matrix.f);
-        me._setTransitionTime(0);
+        if(matrix.e != me.x || matrix.f != me.y){
+        	me._setPosition(matrix.e, matrix.f);
+        	me._setTransitionTime(0);
+        }
+        
         e.preventDefault();
 
         me.startTime = e.timeStamp;
@@ -166,7 +171,6 @@ baidu.ui.Scroller = baidu.ui.createUI( function(options) {
             me.distX += Math.abs(deltaX);
             me.distY += Math.abs(deltaY);
         }
-
     },
     
     /**
@@ -218,7 +222,7 @@ baidu.ui.Scroller = baidu.ui.createUI( function(options) {
         if (newX != me.x || newY != me.y) {
             me.scrollTo(newX, newY, duration);
         } else {
-            me._resetPosition();
+            me.resetPosition(newX, newY);
         }
         
         me.dispatchEvent('scroll');
@@ -232,7 +236,7 @@ baidu.ui.Scroller = baidu.ui.createUI( function(options) {
     _setTransitionTime: function(time) {
         var me = this;
         time = time || '0'
-        baidu.setStyle(me.element, "webkitTransitionDuration", time);
+        baidu.setStyle(me.content, "webkitTransitionDuration", time);
         me.dispatchEvent("settime", {
             time: time
         });
@@ -261,7 +265,7 @@ baidu.ui.Scroller = baidu.ui.createUI( function(options) {
         
         me.x = x;
         me.y = y;
-        baidu.setStyle(me.element, 
+        baidu.setStyle(me.content, 
                        "webkitTransform", 
                        baidu.fx.getTranslate(me.x, me.y));
         
@@ -276,35 +280,30 @@ baidu.ui.Scroller = baidu.ui.createUI( function(options) {
     _onTurn: function(e) {
         var me = this;
         
-        me._update();
+        me.update();
         me.fire('turn', e);
     },
     
     /**
      * 重设位置，超出边界时滚动到边界
+     * @param {Number} x  目标X坐标
+     * @param {Number} y  目标Y坐标
      * @private
      */
-    _resetPosition: function () {
+    resetPosition: function (x, y) {
         var me = this,
-            resetX = me.x,
-            resetY = me.y;
+            resetX = x,
+            resetY = y;
 
-        if (me.x >= 0) {
-            resetX = 0;
-        } else if (me.x < me.minScrollX) {
-            resetX = me.minScrollX;
-        }
+        resetX = Math.min(0, Math.max(x, me.minScrollX));
+        resetY = Math.min(0, Math.max(y, me.minScrollY));
 
-        if (me.y >= 0 || me.minScrollY > 0) {
-            resetY = 0;
-        } else if (me.y < me.minScrollY) {
-            resetY = me.minScrollY;
-        }
-
-        if (resetX != me.x || resetY != me.y) {
-            me.scrollTo(resetX, resetY);
-        }
+        me.scrollTo(resetX, resetY);
         
-        me.dispatchEvent("resetposition");
+        me.dispatchEvent("resetposition", {
+        	isReset: resetX != x || resetY != y,
+        	x: x,
+        	y: y
+        });
     }
 });
