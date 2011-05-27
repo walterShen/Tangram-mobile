@@ -180,8 +180,6 @@ baidu.ui.Scroller = baidu.ui.createUI( function(options) {
      */
     _onTouchEnd : function(e) {
         var me = this,
-            newX = me.x,
-            newY = me.y,
             deltaTime = e.timeStamp - me.startTime,
             duration = 0,
             momentum;
@@ -191,14 +189,6 @@ baidu.ui.Scroller = baidu.ui.createUI( function(options) {
         }
 
         me.scrolling = false;
-
-        //动力加速
-        if (me._getMomentum && me.momentum) {
-            momentum = me._getMomentum(deltaTime);
-            newX = momentum.x;
-            newY = momentum.y;
-            duration = momentum.duration;
-        }
 
         //由于touchstart处preventDefault 单击时已无法触发click事件
         //所以在此处判断如果是单击则触发click事件
@@ -218,11 +208,22 @@ baidu.ui.Scroller = baidu.ui.createUI( function(options) {
                 target.dispatchEvent(ev);
             }
         }
-
-        if (newX != me.x || newY != me.y) {
-            me.scrollTo(newX, newY, duration);
-        } else {
-            me.resetPosition(newX, newY);
+        
+        //动力加速
+        if (me._getMomentum && me.momentum) {
+            momentum = me._getMomentum(deltaTime);
+            newX = momentum.x;
+            newY = momentum.y;
+            duration = momentum.duration;
+            
+            //动画运行结束后执行resetPosition
+	        setTimeout(function(){
+	        	me.resetPosition(newX, newY);
+	        }, duration);
+	        
+            me._scrollTo(newX, newY, duration + 'ms');
+        }else{
+        	me.resetPosition(me.x, me.y);
         }
         
         me.dispatchEvent('scroll');
@@ -244,14 +245,28 @@ baidu.ui.Scroller = baidu.ui.createUI( function(options) {
     
     /**
      * 滚动到指定位置
+     * @private
      * @param {Number} destX  目标X坐标
      * @param {Number} destY  目标Y坐标
      * @param {String}   time     动画运行时间(需带单位)
      */
-    scrollTo: function (destX, destY, time) {
+    _scrollTo: function (destX, destY, time) {
         var me = this;
         me._setTransitionTime(time || '350ms');
         me._setPosition(destX, destY);
+    },
+    
+    /**
+     * 滚动到指定位置,会自动矫正坐标值
+     * @param {Number}  x 目标X坐标
+     * @param {Number} y  目标Y坐标
+     * @param {String}   time     动画运行时间(需带单位)
+     */
+    scrollTo: function (x, y, time) {
+		var me = this,
+			reset = me._adjustValue(x, y);
+			
+		me._scrollTo(reset.x, reset.y, time);
     },
     
     /**
@@ -285,6 +300,26 @@ baidu.ui.Scroller = baidu.ui.createUI( function(options) {
     },
     
     /**
+     * 矫正坐标值，防止超出边界
+     * @param {Number} x  目标X坐标
+     * @param {Number} y  目标Y坐标
+     * @private
+     */
+    _adjustValue: function(x, y){
+    	var me = this,
+            resetX = x,
+            resetY = y;
+
+        resetX = Math.min(0, Math.max(x, me.minScrollX));
+        resetY = Math.min(0, Math.max(y, me.minScrollY));
+        
+        return {
+        	x: resetX,
+        	y: resetY
+        }
+    },
+    
+    /**
      * 重设位置，超出边界时滚动到边界
      * @param {Number} x  目标X坐标
      * @param {Number} y  目标Y坐标
@@ -292,16 +327,15 @@ baidu.ui.Scroller = baidu.ui.createUI( function(options) {
      */
     resetPosition: function (x, y) {
         var me = this,
-            resetX = x,
-            resetY = y;
+            reset = me._adjustValue(x, y);
 
-        resetX = Math.min(0, Math.max(x, me.minScrollX));
-        resetY = Math.min(0, Math.max(y, me.minScrollY));
+		if(reset.x == x && reset.y == y){
+			return;
+		}
 
-        me.scrollTo(resetX, resetY);
+        me._scrollTo(reset.x, reset.y);
         
         me.dispatchEvent("resetposition", {
-        	isReset: resetX != x || resetY != y,
         	x: x,
         	y: y
         });
