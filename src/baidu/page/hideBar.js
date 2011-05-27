@@ -26,10 +26,9 @@ baidu.page.hideBar = function (fn) {
 			setTimeout( function() {
 				window.scrollTo(0, 1);
 				setTimeout( function() {
-					window.scrollTo(0, 1);
 					baidu.dom.setStyle(document.body, 'height', window.innerHeight);//还原body高度
 					fn && fn();
-				}, 100);
+				}, 200);
 			}, 100);
 		} else {
 			fn && fn();
