@@ -6,7 +6,7 @@
 
 ///import baidu.browser;
 
-if (/(BlackBerry).*Version\/([\d.]+)/.test(navigator.userAgent)) {
+if (/BlackBerry.*Version\/([\d.]+)/i.test(navigator.userAgent)) {
 /**
  * 判断是否为Blackberry系统
  * @grammar baidu.browser.blackberry

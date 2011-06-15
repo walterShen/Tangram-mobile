@@ -6,6 +6,7 @@
 
 ///import baidu.event.getTouchInfo;
 ///import baidu.object.each;
+///import baidu.browser.android;
 
 //左右滑动n像素触发swipe事件
 baidu.event.swipeTiggerThreshold = 35;
@@ -38,6 +39,10 @@ baidu.event.swipe = function (elem, listener) {
                 startX = touch.pageX;
                 startY = touch.pageY;
                 startTime = e.timeStamp;
+                
+				if(baidu.browser.android < 2.1) {
+					e.preventDefault();
+				}
             },
             touchmove: function(e) {
                 touch = baidu.event.getTouchInfo(e);

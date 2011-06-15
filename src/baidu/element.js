@@ -3,6 +3,7 @@
  * Copyright 2011 Baidu Inc. All right reserved.
  *
  */
+
 ///import baidu.fn.methodize;
 ///import baidu.fn.multize;
 ///import baidu.fn.wrapReturnValue;
@@ -81,8 +82,8 @@
         },
         
         each: function(iterator){
-            baidu.array.each(this._dom, function(node){
-                iterator.call(this);
+            baidu.array.each(this._dom, function(node, i){
+                iterator.call(node, node, i);
             });
         }
     };

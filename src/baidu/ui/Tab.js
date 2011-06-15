@@ -47,6 +47,8 @@ baidu.ui.Tab = baidu.ui.createUI(function(options){
       
       baidu.ui.Base._init.call(me);
       
+      baidu.dom.setStyle(me.roles.content[0].element, "overflow", "hidden");
+      
       baidu.array.each(me.heads, function(item, i){
           me.on(item, 'tap', '_onSwitch', i);
       });
@@ -77,17 +79,14 @@ baidu.ui.Tab = baidu.ui.createUI(function(options){
         baidu.dom.addClass(heads[i], currentClass);
         baidu.dom.removeClass(heads[me.currentIndex], currentClass);
         
-        me.switchTo(i, function(){
-            me.dispatchEvent('switch');
-        });
+        me.switchTo(i);
     },
     
     /**
      * 滑动页面
      * @param {Number} index Tab index
-     * @param {Function} fn 回调函数
      */
-    switchTo: function(index, fn){
+    switchTo: function(index){
         var me = this,
             content = me.contents[index], 
             direction = index > me.currentIndex ? 'left' : 'right',
@@ -107,7 +106,7 @@ baidu.ui.Tab = baidu.ui.createUI(function(options){
                 currentContent.style.display = 'none';
                 baidu.ui.Tab._moving = false;
                 me.currentIndex = index;
-                fn && fn();
+                me.dispatchEvent('switch');
             }
         });
 

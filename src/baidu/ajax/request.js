@@ -1,6 +1,6 @@
 /*
  * Tangram Mobile
- * Copyright 2010 Baidu Inc. All rights reserved.
+ * Copyright 2011 Baidu Inc. All rights reserved.
  * 
  */
 
@@ -41,7 +41,8 @@ baidu.ajax.request = function (url, options) {
         method = (options.method || "GET").toUpperCase(),
         headers = options.headers || {},
         eventHandlers = {},
-        key, xhr;
+        timeout     = options.timeout || 0,
+        tick,key, xhr;
     /**
      * readyState发生变更时调用
      * 
@@ -71,6 +72,10 @@ baidu.ajax.request = function (url, options) {
         
         // 不对事件类型进行验证
         if (handler) {
+        	if (tick) {
+              clearTimeout(tick);
+            }
+            
             if (type != 'onsuccess') {
                 handler(xhr);
             } else {
@@ -126,6 +131,15 @@ baidu.ajax.request = function (url, options) {
         }
         
         fire('beforerequest');
+        
+        if (timeout) {
+          tick = setTimeout(function(){
+            xhr.onreadystatechange = null;
+            xhr.abort();
+            fire("timeout");
+          }, timeout);
+        }
+        
         xhr.send(data);
         
         if (!async) {

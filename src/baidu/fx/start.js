@@ -9,6 +9,7 @@
 ///import baidu.dom.setStyles;
 ///import baidu.dom._styleFilter.px;
 ///import baidu.event.once;
+///import baidu.object.extend;
 
 /**
  * 基础动画方法

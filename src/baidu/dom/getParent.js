@@ -4,7 +4,7 @@
  * 
  */
 
-///import baidu.dom._g;
+///import baidu.dom.g;
 
 /**
  * 获得元素的父节点
@@ -15,7 +15,7 @@
  * @return {HTMLElement|null} 父元素，如果找不到父元素，返回null
  */
 baidu.dom.getParent = function (element) {
-    element = baidu.dom._g(element);
+    element = baidu.dom.g(element);
 
     return  element.parentNode || null;
 };
