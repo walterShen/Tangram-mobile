@@ -4,15 +4,15 @@
  */
 
 ///import baidu.ui.createUI;
+///import baidu.ui.Base.fire;
 ///import baidu.event.tap;
 ///import baidu.event.customScroll;
 ///import baidu.event.turn;
 ///import baidu.event.on;
-///import baidu.dom._styleFilter.px;
-///import baidu.dom.setStyles;
-///import baidu.dom.toggle;
-///import baidu.dom.show;
-///import baidu.dom.hide;
+///import baidu.dom.$setStyles;
+///import baidu.dom.$toggle;
+///import baidu.dom.$show;
+///import baidu.dom.$hide;
 ///import baidu.lang.isNumber;
 
 /**
@@ -40,13 +40,11 @@ baidu.ui.Toolbar = baidu.ui.createUI( function() {
      * */
     _init: function() {
         var me = this;
-        
-        baidu.ui.Base._init.call(me);
-        
         if(me.hideOnTap) {
             me.on(document, 'tap', '_onDocTap');
         };
-        
+        me.on(window, 'turn', '_onTurn');
+        me.on(document, 'customScroll', '_onCustomScroll'); 
         me._update();
     },
     
@@ -60,7 +58,7 @@ baidu.ui.Toolbar = baidu.ui.createUI( function() {
 
         baidu.dom.setStyles(element, {
             "position": "absolute",
-            "width": window.innerWidth
+            "width": window.innerWidth + 'px'
         });
         
         me._setPostion();   
@@ -96,8 +94,8 @@ baidu.ui.Toolbar = baidu.ui.createUI( function() {
         }
 
         baidu.dom.setStyles(element, {
-            "top" : top,
-            "left" : left
+            "top" : top + 'px',
+            "left" : left + 'px'
         });
     },
     

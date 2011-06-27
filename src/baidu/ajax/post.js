@@ -5,7 +5,6 @@
  */
 
 ///import baidu.ajax;
-///import baidu.ajax.request;
 
 /**
  * 发送一个post请求
@@ -21,12 +20,24 @@
  * @returns {XMLHttpRequest} 	发送请求的XMLHttpRequest对象
  */
 baidu.ajax.post = function (url, data, onsuccess) {
-    return baidu.ajax.request(
-        url, 
-        {
-            'onsuccess': onsuccess,
-            'method': 'POST',
-            'data': data
+	var	xhr = new XMLHttpRequest();
+
+	xhr.open('POST', url, true);
+	
+	function stateChangeHandler() {
+        var stat = xhr.status;
+        if (xhr.readyState == 4) {
+            if ((stat >= 200 && stat < 400) || stat == 0) {
+            	onsuccess && onsuccess(xhr, xhr.responseText);
+            }
         }
-    );
+    }
+
+	xhr.onreadystatechange = stateChangeHandler;
+
+	if (method == "POST") {
+		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	}
+
+	xhr.send(data);
 };

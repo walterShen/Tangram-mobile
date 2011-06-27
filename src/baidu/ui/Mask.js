@@ -4,12 +4,11 @@
  */
 
 ///import baidu.ui.createUI;
-///import baidu.dom._styleFixer.opacity;
-///import baidu.dom._styleFilter.px;
-///import baidu.dom.setStyles;
-///import baidu.page.getWidth;
-///import baidu.page.getHeight;
-///import baidu.dom.hide;
+///import baidu.dom.$setStyles;
+///import baidu.ui.Base.on;
+///import baidu.event.turn;
+///import baidu.ui.Base.fire;
+
 /**
  * 遮罩层类
  * @class Mask类
@@ -31,10 +30,7 @@ baidu.ui.Mask = baidu.ui.createUI(function() {
      * @private
      */
     _setup: function() {
-        var me = this;
-        
-        baidu.ui.Base._setup.call(me);
-        
+        var me = this;       
         if(!baidu.ui.Mask._instance ){
           baidu.ui.Mask._instance = me;
         }
@@ -48,14 +44,14 @@ baidu.ui.Mask = baidu.ui.createUI(function() {
       var me = this,
           element = me.element;
       
-      baidu.ui.Base._init.call(me);
-      
       baidu.dom.setStyles(element, {
           'display': 'none',
           'position': 'absolute', 
           'top': 0, 
           'zIndex': me.zIndex
       });
+      
+      me.on(window, 'turn', '_onTurn');
     },
 
     /**
@@ -64,8 +60,8 @@ baidu.ui.Mask = baidu.ui.createUI(function() {
      */
     _update: function() {
        baidu.dom.setStyles(this.element, {
-           'width': baidu.page.getWidth(),
-           'height': baidu.page.getHeight()
+           'width': window.innerWidth + 'px',
+           'height': window.innerHeight + 'px'
        });
     },
 
@@ -92,8 +88,7 @@ baidu.ui.Mask = baidu.ui.createUI(function() {
      */
     close: function() {
         var me = this;
-
-        baidu.dom.hide(me.element);
+		me.element.style.display = 'none';
         me.dispatchEvent('close');
     }
 });

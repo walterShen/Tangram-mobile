@@ -4,10 +4,9 @@
  * 
  */
 
-///import baidu.event;
 ///import baidu.event._listeners;
 ///import baidu.event.getCompat;
-///import baidu.dom._g;
+///import baidu.dom.g;
 ///import baidu.object.each;
 
 /**
@@ -19,7 +18,7 @@
  * @return {HTMLElement} 目标元素
  */
 baidu.event.on = function(elem, type, listener) {
-    elem = baidu.dom._g(elem);
+    elem = baidu.dom.g(elem);
    
     var customEvent = baidu.event,
         handlers,

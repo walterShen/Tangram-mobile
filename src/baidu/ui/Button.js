@@ -28,7 +28,6 @@ baidu.ui.Button = baidu.ui.createUI( function(options) {
      */
     _setup: function(){
       var me = this;
-      baidu.ui.Base._setup.call(me);
       me.disabled = me.element.getAttribute('disabled');
       me.dispatchEvent('setup');  
     },
@@ -39,7 +38,7 @@ baidu.ui.Button = baidu.ui.createUI( function(options) {
      */
     _init: function() {
         var me = this;
-        baidu.ui.Base._init.call(me);
+        me.on(element, 'tap', '_onTap');
         me.dispatchEvent("onload");
     },
     

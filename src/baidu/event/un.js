@@ -4,7 +4,7 @@
  * 
  */
 
-///import baidu.dom._g;
+///import baidu.dom.g;
 ///import baidu.object.each;
 ///import baidu.event._listeners;
 ///import baidu.event.getCompat;
@@ -18,7 +18,7 @@
  * @return {HTMLElement} 目标元素
  */
 baidu.event.un = function(elem, type, listener) {
-    elem = baidu.dom._g(elem);
+    elem = baidu.dom.g(elem);
     
     var lis = baidu.event._listeners, 
         len = lis.length,

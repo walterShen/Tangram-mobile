@@ -4,12 +4,13 @@
  */
 
 ///import baidu.ui.createUI;
-///import baidu.dom.insertHTML;
-///import baidu.dom.setStyles;
-///import baidu.dom._styleFilter.px;
-///import baidu.fx.slide;
-///import baidu.ajax.get;
+///import baidu.dom.$insertHTML;
+///import baidu.dom.$setStyles;
+///import baidu.fx.$slide;
+///import baidu.ajax.$get;
 ///import baidu.event.turn;
+///import baidu.ui.Base.on;
+///import baidu.ui.Base.fire;
 
 /**
  * 视图页
@@ -28,10 +29,8 @@ baidu.ui.Page = baidu.ui.createUI( function(options) {
      */
     _init: function() {
         var me = this;
-        
-        baidu.ui.Base._init.call(me);
-        
         me._updatePage();
+        me.on(window, 'turn', '_onTurn');
         me.dispatchEvent('load');
     },
     
@@ -41,8 +40,8 @@ baidu.ui.Page = baidu.ui.createUI( function(options) {
      */
     _updatePage: function() {
         baidu.dom.setStyles(this.element, {
-            width: window.innerWidth,
-            height: window.innerHeight,
+            width: window.innerWidth + 'px',
+            height: window.innerHeight + 'px',
             position: 'absolute'
         });
     },

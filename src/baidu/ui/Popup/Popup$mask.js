@@ -6,6 +6,7 @@
 ///import baidu.ui.Popup;
 ///import baidu.ui.Mask;
 ///import baidu.dom.create;
+///import baidu.ui.Base.addEventListener;
 
 /**
  * 遮罩层插件
@@ -29,8 +30,7 @@ baidu.ui.Popup.extend({
         document.body.appendChild(div);
 
         ui = new baidu.ui.Mask({element: div});
-        ui._setup();
-        ui._init();
+        ui.setup();
     },
 })
 

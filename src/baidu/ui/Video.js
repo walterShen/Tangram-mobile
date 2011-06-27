@@ -4,12 +4,12 @@
  */
  
 ///import baidu.ui.createUI;
-///import baidu.dom.setStyles;
-///import baidu.dom._styleFilter.px;
-///import baidu.dom.insertBefore;
+///import baidu.ui.Base.on;
+///import baidu.dom.$setStyles;
+///import baidu.dom.$insertBefore;
 ///import baidu.dom.create;
-///import baidu.dom.show;
-///import baidu.dom.hide;
+///import baidu.dom.$show;
+///import baidu.dom.$hide;
 ///import baidu.fn.bind;
 ///import baidu.event.once;
 ///import baidu.event.tap;
@@ -36,9 +36,6 @@ baidu.ui.Video = baidu.ui.createUI( function() {
      */
     _init: function() {
         var me = this;
-        
-        baidu.ui.Base._init.call(me);
-        
         me._initPoster();
         me._initListeners();
     },
@@ -58,8 +55,8 @@ baidu.ui.Video = baidu.ui.createUI( function() {
         if(posterUrl) {
             poster = baidu.dom.create('div');
             baidu.dom.setStyles(poster, {
-                width: width,
-                height: height,
+                width: width + 'px',
+                height: height + 'px',
                 background: '#000 url(' + posterUrl + ') center center no-repeat'
             });
 

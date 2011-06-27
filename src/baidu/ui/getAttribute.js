@@ -4,7 +4,6 @@
  */
 
 ///import baidu.ui;
-
 ///import baidu.string.trim;
 ///import baidu.string.toCamelCase;
 

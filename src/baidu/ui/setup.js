@@ -4,8 +4,9 @@
  */
 
 ///import baidu.ui;
-///import baidu.dom.query;
-///import baidu.page.hideBar;
+///import baidu.dom.$query;
+///import baidu.page.$hideBar;
+///import baidu.ui.getAttribute;
 
 /**
  * 从当前页面批量setup所有控件（DOM - 控件）
@@ -35,14 +36,14 @@ baidu.ui.setup = function(fn, target) {
                     ui = new baidu.ui[type]({
                         element: element
                     });
-                    ui._create();
+            		ui._create();
                     uiArray.push(ui);
                 }
 
             }
         }
         
-        //统一setup
+        //统一初始化
         for(i=0;i<length;i++) {
             uiArray[i]._setup();
         }

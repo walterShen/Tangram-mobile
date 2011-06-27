@@ -29,13 +29,5 @@ baidu.lang.toArray = function (source) {
         return [source];
     }
 
-    //nodeList, IE 下调用 [].slice.call(nodeList) 会报错
-    if (source.item) {
-        var l = source.length, array = new Array(l);
-        while (l--)
-            array[l] = source[l];
-        return array;
-    }
-
     return [].slice.call(source);
 };

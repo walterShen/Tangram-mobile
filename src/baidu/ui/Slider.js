@@ -6,8 +6,10 @@
 ///import baidu.ui.createUI;
 ///import baidu.event.drag;
 ///import baidu.event.tap;
-///import baidu.dom.setStyle;
-///import baidu.fx.getTranslate;
+///import baidu.dom.$setStyle;
+///import baidu.fx.$getTranslate;
+///import baidu.ui.Base.on;
+///import baidu.ui.$getRoles;
 
 /**
  * 拖动条控件，可用作音乐播放进度。
@@ -58,8 +60,6 @@ baidu.ui.Slider = baidu.ui.createUI( function(options) {
      */
     _setup: function(){
       var me = this;
-      
-      baidu.ui.Base._setup.call(me);
       me._axis = me._axisHash[me.layout];
       me._size = me.element[me._axis.clientSize];
       me._thumb = me.roles.thumb[0].element;
@@ -73,9 +73,6 @@ baidu.ui.Slider = baidu.ui.createUI( function(options) {
      */
     _init: function(){
       var me = this;
-      
-      baidu.ui.Base._init.call(me);
-      
       me._setThumbPosition();
       me.on(me._thumb, 'drag', '_onSlide');
       me.dispatchEvent('load');

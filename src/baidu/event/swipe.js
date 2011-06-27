@@ -62,6 +62,8 @@ baidu.event.swipe = function (elem, listener) {
                     touch["delta"] = deltaX;
                     listener.call(elem, touch, e);
                 }
+                distanceX = 0;
+                distanceY = 0;
             }
         }
         

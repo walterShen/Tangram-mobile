@@ -5,7 +5,7 @@
 */
 
 ///import baidu.array;
-///import baidu.array.indexOf;
+///import baidu.array.$indexOf;
 
 /**
  * 判断一个数组中是否包含给定元素
@@ -17,6 +17,6 @@
  * @return {boolean} 判断结果.
  * @author berg
  */
-baidu.array.contains = function(source, obj) {
+baidu.array.inArray = function(source, obj) {
     return (baidu.array.indexOf(source, obj) >= 0);
 };

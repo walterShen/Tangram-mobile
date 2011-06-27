@@ -4,8 +4,8 @@
  */
 
 ///import baidu.ui.getAttribute;
-///import baidu.dom.query;
-///import baidu.dom.g;
+///import baidu.dom.$query;
+///import baidu.dom.$g;
 ///import baidu.object.extend;
 ///import baidu.array.contains;
 
@@ -15,7 +15,7 @@
  * @param {string} role 角色值
  * @return {array} 找到符合的子元素数组
  */
-baidu.ui.getAttributesByRole = function(element, role) {
+baidu.ui.getRoles = function(element, role) {
     element = baidu.dom.g(element);
 
     while(1) {

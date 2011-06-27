@@ -2,9 +2,11 @@
 * Tangram
 * Copyright 2011 Baidu Inc. All rights reserved.
 */
+
 ///import baidu.ui.Carousel;
-///import baidu.dom.addClass;
-///import baidu.dom.removeClass;
+///import baidu.ui.Base.addEventListener;
+///import baidu.dom.children;
+///import baidu.array.$each;
 
 /**
  * 为滚动组件添加标题插件
@@ -15,7 +17,7 @@ baidu.ui.Carousel.register( function(me) {
 	}
 
 	var caption = me.roles.caption[0].element,
-		captionItems = caption.children;
+		captionItems = baidu.dom.children(caption);
 	
 	me.addEventListener('onload', function() {
 		caption.style.overflow = 'hidden';
@@ -23,11 +25,12 @@ baidu.ui.Carousel.register( function(me) {
 			if(index != me.activeIndex) {
 				item.style.display = 'none';
 			}
+			item.style.position = 'absolute';
 		})
 	});
 	
 	me.addEventListener('onbeforeswipe', function() {
-		baidu.fx.slide(captionItems[me.activeIndex], {
+		me.slide(captionItems[me.activeIndex], {
 			out: true,
 			duration: 300,
 			direction: 'down',
@@ -39,7 +42,7 @@ baidu.ui.Carousel.register( function(me) {
 	
 	me.addEventListener('onslide', function() {
 		captionItems[me.activeIndex].style.display = '';
-		baidu.fx.slide(captionItems[me.activeIndex], {
+		me.slide(captionItems[me.activeIndex], {
 			duration: 300,
 			direction: 'up'
 		});

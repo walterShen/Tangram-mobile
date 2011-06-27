@@ -6,8 +6,6 @@
 
 ///import baidu.page;
 ///import baidu.dom.ready;
-///import baidu.dom.setStyle;
-///import baidu.dom._styleFilter.px;
 
 /**
  * 隐藏地址栏

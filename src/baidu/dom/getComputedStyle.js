@@ -4,11 +4,10 @@
  * 
  */
 
-///import baidu.dom._g;
+///import baidu.dom.g;
 
 /**
  *
- * @author berg
  * @name baidu.dom.getComputedStyle
  * @function
  * @grammar baidu.dom.getComputedStyle(element, key)
@@ -21,6 +20,6 @@
  */
 
 baidu.dom.getComputedStyle = function(element, key){
-    element = baidu.dom._g(element);
+    element = baidu.dom.g(element);
     return document.defaultView.getComputedStyle(element, null).getPropertyValue(key);
 };

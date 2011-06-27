@@ -4,6 +4,9 @@
  * 
  */
 
+///import baidu.dom;
+///import baidu.dom.g;
+
 /**
  * 删除一个节点下面的所有子节点。
  * @name baidu.dom.empty
@@ -12,12 +15,8 @@
  * @param {HTMLElement|string} element 目标元素或目标元素的id
  * @version 1.3
  *             
- * @returns {HTMLElement} 目标元素
-        
+ * @returns {HTMLElement} 目标元素      
  */
-///import baidu.dom;
-///import baidu.dom.g;
-
 baidu.dom.empty = function (element) {
     element = baidu.dom.g(element);
     

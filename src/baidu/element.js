@@ -6,7 +6,6 @@
 
 ///import baidu.fn.methodize;
 ///import baidu.fn.multize;
-///import baidu.fn.wrapReturnValue;
 ///import baidu.array.each;
 ///import baidu.dom.query;
 ///import baidu.dom.ready;
@@ -21,6 +20,7 @@
             wrapFn(m, chain.wrapFirstReturnValue, 1);
             wrapFn(m, chain.wrapAllReturnValue, 0);
             wrapFn(m, chain.notWrapReturnValue, -1);
+            wrapFn(m, staticChain, 0, true);
             m._init = true;
         }
         return new m.fn.init(selector, context);
@@ -33,31 +33,66 @@
         
         //包装所有返回值
         wrapAllReturnValue: {
-            "dom": "addClass removeClass toggleClass setStyle setStyles setAttr setAttrs setPosition " + 
-                   "empty hide show insertAfter insertBefore insertHTML toggle getParent q children " + 
-                   "next first last prev getAncestorByClass getAncestorBy getAncestorByTag",
-            "event": "on un once tap dbtap pinch swipe taphold turn fire customScroll",
-            "fx": "cube fade flip pop rotate scale slide start stop translate",
-            "ui": "button"
+            "dom": "remove addClass removeClass toggleClass setStyle setStyles setAttr setAttrs " + 
+                   "empty hide show insertAfter insertBefore insertHTML toggle getParent children " + 
+                   "next first last prev getAncestorByClass getAncestorBy getAncestorByTag removeStyle",
+            "event": "on un once fire",
+            "fx": "cube fade flip pop rotate scale slide start stop translate"
         },
         
         //不包装返回值
         notWrapReturnValue: {
-            "dom": "remove getText getAttr getPosition getStyle hasClass hasAttr"
+            "dom": "getPosition getComputedStyle getStyle hasClass contains"
         }
-    };
+    }, staticChain = {
+		"browser": "android blackberry has3d ipad iphone isSupportTouch webkit webos",
+		"array": "each indexOf lastIndexOf map reduce unique inArray",
+		"json": "encode decode parse stringify",
+		"lang": "inherts isArray isBoolean isDate isElement isFunction isNumber isString toArray",
+		"object": "extend",
+		"page": "hideBar getOrientation setNoScale setWebApp",
+		"string": "trim format decodeHTML encodeHTML escapeReg",
+		"url": "escapeSymbol getQueryValue jsonToQuery queryToJson",
+		"ajax": "request from get post"
+	};
+    
+    /**
+	 * 包装函数的返回值，使其在能按照index指定的方式返回。<br/>如果其值为-1，直接返回返回值。 <br/>如果其值为0，返回"返回值"的包装结果。<br/> 如果其值大于0，返回第i个位置的参数的包装结果（从1开始计数）
+	 * @param {function} func    需要包装的函数
+	 * @param {function} wrapper 包装器
+	 * @param {number} 包装第几个参数
+	 * @return {function} 包装后的函数
+	 */
+    function wrapReturnValue(func, wrapper, mode) {
+	    mode = mode | 0;
+	    return function(){
+	        var ret = func.apply(this, arguments); 
+	
+	        if(mode > 0){
+	            return new wrapper(arguments[mode - 1]);
+	        }
+	        if(!mode){
+	            return new wrapper(ret);
+	        }
+	        return ret;
+	    }
+	};
     
     /**
      * 包装静态方法，使其变成一个链条方法。先把静态方法multize化，让其支持接受数组参数，然后包装返回值，最后把静态方法methodize化，让其变成一个对象方法.
      */
-    function wrapFn(wrapper, item, mode){
+    function wrapFn(wrapper, item, mode, attr){
         var proto = wrapper.prototype, func;
         for (var name in item) {
             baidu.each(item[name].split(' '), function(fn){
                 if (baidu[name] && baidu[name][fn]) {
-                    func = baidu.fn.multize(baidu[name][fn]);
-                    proto[fn] = proto[fn.replace(/^get[A-Z]/g, stripGet)] = 
-                        baidu.fn.methodize(baidu.fn.wrapReturnValue(func, wrapper, mode), '_dom');
+                	if(attr){
+                		m[fn] = baidu[name][fn];
+                	}else{
+                		func = baidu.fn.multize(baidu[name][fn]);
+	                    proto[fn] = proto[fn.replace(/^get[A-Z]/g, stripGet)] = 
+	                        baidu.fn.methodize(wrapReturnValue(func, wrapper, mode), '_dom');
+                	}
                 }
             });
         }
@@ -97,7 +132,7 @@
         return this;
     };
     
-    baidu.m = m;
+    'T' in window || (window.T = m);
 })();
 
 

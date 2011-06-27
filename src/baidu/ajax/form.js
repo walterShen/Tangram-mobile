@@ -5,7 +5,7 @@
  */
 
 ///import baidu.ajax;
-///import baidu.ajax.request;
+///import baidu.ajax.$request;
 
 /**
  * 将一个表单用ajax方式提交

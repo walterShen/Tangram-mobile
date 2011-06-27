@@ -3,12 +3,14 @@
 * Copyright 2011 Baidu Inc. All rights reserved.
 */
 
-///import baidu.dom.setStyles;
-///import baidu.fx.getTranslate;
+///import baidu.dom.s$etStyles;
+///import baidu.fx.$getTranslate;
+///import baidu.ui.$getRoles;
 ///import baidu.browser.isSupportTouch;
 ///import baidu.ui.createUI;
 ///import baidu.event.turn;
 ///import baidu.event.getTouchInfo;
+///import baidu.ui.Base.on;
 
 /**
  * Scroller类
@@ -31,8 +33,6 @@ baidu.ui.Scroller = baidu.ui.createUI( function(options) {
      */
     _setup: function() {
         var me = this;
-
-        baidu.ui.Base._setup.call(me);
         me.content = me.roles.content ? 
         	me.roles.content[0].element : me.element.children[0];
         me.x = 0;
@@ -49,9 +49,7 @@ baidu.ui.Scroller = baidu.ui.createUI( function(options) {
         var me = this,
             element = me.element,
             content = me.content;
-        
-        baidu.ui.Base._init.call(me);
-        
+
         baidu.setStyles(content, {
             webkitTransitionProperty : '-webkit-transform',
             webkitTransitionTimingFunction : 'cubic-bezier(0,0,0.25,1)',

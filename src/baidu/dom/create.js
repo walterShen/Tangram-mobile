@@ -4,7 +4,7 @@
  * 
  */
 
-///import baidu.dom.setAttrs;
+///import baidu.dom.$setAttrs;
 
 /**
  * 创建 Element 对象。

@@ -1,18 +1,10 @@
-/*
- * Tangram UI
- * Copyright 2009 Baidu Inc. All rights reserved.
- *
- * path: baidu/ui/createUI.js
- * author: berg
- * version: 1.1.0
- * date: 2010/12/02
+/**
+ * Tangram
+ * Copyright 2011 Baidu Inc. All rights reserved.
  */
 
-///import baidu.ui.getParent;
-///import baidu.ui.getAttribute;
-///import baidu.ui.getAttributesByRole;
-///import baidu.ui.Base;
-///import baidu.lang.Event;
+///import baidu.ui.Base.Class;
+///import baidu.dom.$g;
 ///import baidu.object.extend;
 
 /**
@@ -25,8 +17,8 @@
  */
 baidu.ui.createUI = function(constructor, options) {
     options = options || {};
-    var superClass = options.superClass || baidu.lang.Class,
-        lastStep = superClass == baidu.lang.Class ? 1 : 0,
+    var superClass = options.superClass || baidu.ui.Base,
+        lastStep = superClass == baidu.ui.Base ? 1 : 0,
         i,
         n,
         ui = function(opt, _inherit){// 创建新类的真构造器函数
@@ -40,24 +32,20 @@ baidu.ui.createUI = function(constructor, options) {
             //扩展当前options中的项到this上
             baidu.object.extend(me, opt);
 
-            me.classPrefix = me.classPrefix || "tangram-" + me.uiType.toLowerCase();
-            
             //setup属性和role
             me.element = baidu.dom.g(me.element);
-            me.roles = baidu.ui.getAttributesByRole(me.element);
-            baidu.object.extend(me, baidu.ui.getAttribute(me.element));
+            if(baidu.ui.getRoles)
+            	me.roles = baidu.ui.getRoles(me.element);
             
-            
+            if(baidu.ui.getAttribute)
+            	baidu.object.extend(me, baidu.ui.getAttribute(me.element));
+                        
             //执行控件自己的构造器
             constructor.apply(me, arguments);
 
             //执行插件的构造器
             for (i=0, n=ui._addons.length; i<n; i++) {
                 ui._addons[i](me);
-            }
-
-            if(opt.autoRender && !_inherit){ 
-                me.render(opt.element);
             }
         },
         C = function(){};
@@ -66,11 +54,6 @@ baidu.ui.createUI = function(constructor, options) {
 
     //继承父类的原型链
     var proto = ui.prototype = new C();
-
-    //继承Base中的方法到prototype中
-    for (i in baidu.ui.Base) {
-        proto[i] = baidu.ui.Base[i];
-    }
 
     /**
      * 扩展控件的prototype

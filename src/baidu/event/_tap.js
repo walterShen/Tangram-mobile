@@ -26,16 +26,6 @@ baidu.event._tap = function (elem, listener, type, dbtapThreshold) {
         CANCLE_TAP = baidu.event.CANCLE_TAP,
         TAP_LAST_TIME = baidu.event.TAP_LAST_TIME,
         isSupportTouch = baidu.browser.isSupportTouch,
-        /*fireClick = function(){
-        	if (isSupportTouch) {
-                var clickEvent = document.createEvent("MouseEvent");
-                clickEvent.initMouseEvent('click', e.bubbles, e.cancelable, document.defaultView, e.detail, e.screenX, e.screenY, e.clientX,
-                                         e.clientY, e.ctrlKey, e.altKey, e.shiftKey, e.metaKey, e.metaKey, e.button, e.relatedTarget);
-                clickEvent.isSimulated = true;
-
-				target.dispatchEvent(clickEvent);
-            }
-        },*/
         handlers = {
             touchstart : function (e) {
                 touch = baidu.event.getTouchInfo(e);
@@ -48,7 +38,7 @@ baidu.event._tap = function (elem, listener, type, dbtapThreshold) {
             },
             
             touchmove : function (e) {
-                if(isSupportTouch && baidu.browser.android >= 2.1){
+                if(isSupportTouch){
                     isCancel = true;
                 }
                 touch = baidu.event.getTouchInfo(e);
@@ -59,7 +49,6 @@ baidu.event._tap = function (elem, listener, type, dbtapThreshold) {
                     if (type == "dbtap") {
                         if (elem[TAP_LAST_TIME] && e.timeStamp - elem[TAP_LAST_TIME] <= dbtapThreshold) {
                             listener.call(elem, e);
-                            //fireClick();
                             e.preventDefault();
                             elem[CANCLE_TAP] = true;
                             elem[TAP_LAST_TIME] = 0;
@@ -74,7 +63,6 @@ baidu.event._tap = function (elem, listener, type, dbtapThreshold) {
                                 elem[CANCLE_TAP] = false;
                             } else {
                                 listener.call(elem, touch, e);
-                                //fireClick();
                             }
                         }, 0);
                     }

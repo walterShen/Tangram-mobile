@@ -4,7 +4,11 @@
  */
 
 ///import baidu.ui.Page;
-///import baidu.ui.get;
+///import baidu.ui.$get;
+///import baidu.ui.$g;
+///import baidu.ui.Base.addEventListener;
+///import baidu.ui.Base.each;
+///import baidu.ui.Base.on;
 ///import baidu.event.tap;
 
 baidu.ui.Page.register( function(me) {
@@ -12,7 +16,7 @@ baidu.ui.Page.register( function(me) {
         me.each('back', function(item, i) {
             if(item.pageId) {
                 me.on(item.element, 'tap', function() {
-                    var page = baidu.ui.get(item.pageId);
+                    var page = baidu.ui.get(baidu.g(item.pageId));
                     page.slideTo(me.element, 'right');
                 });
             }

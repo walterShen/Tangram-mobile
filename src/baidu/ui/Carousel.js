@@ -5,8 +5,11 @@
 
 ///import baidu.ui.createUI;
 ///import baidu.dom.children;
-///import baidu.dom.setStyle;
+///import baidu.dom.$setStyle;
+///import baidu.array.$each;
 ///import baidu.event.swipe;
+///import baidu.ui.Base.on;
+///import baidu.ui.$getRoles;
 
 /**
  * Carousel基类，创建一个Carousel实例
@@ -36,8 +39,6 @@ baidu.ui.Carousel = baidu.ui.createUI( function() {
     _setup: function() {
         var me = this;
 
-        baidu.ui.Base._setup.call(me);
-        
         if(me.roles["content"]) {
             me.content = me.roles["content"][0].element;
             me.items = baidu.dom.children(me.content);
@@ -51,13 +52,12 @@ baidu.ui.Carousel = baidu.ui.createUI( function() {
     /**
      * 渲染页面元素
      * @private
-     * */
+     */
     _init: function() {
         var me = this,
             element = me.element,
             content = me.content;
             
-        baidu.ui.Base._init.call(me);
         baidu.dom.setStyle(element, "overflow", "hidden");
         
         baidu.array.each(me.items, function(item, i){
@@ -68,6 +68,22 @@ baidu.ui.Carousel = baidu.ui.createUI( function() {
         
         me.dispatchEvent("load");
     },
+    
+    /**
+     *  滑动到到制定的item
+     *  @param {String} direction 滑动方向
+     */
+    goToItem: function(direction){
+    	
+    },
+    
+    /**
+	 * 校正index
+	 *  @param {Number} index
+	 */
+    adjustIndex: function(index){
+    	
+    },
 
     /**
      * 滑动时触发事件
@@ -75,6 +91,6 @@ baidu.ui.Carousel = baidu.ui.createUI( function() {
      * 
      */
     _onContentSwipe: function(e) {
-        this._goToItem(e.direction);
+        this.goToItem(e.direction);
     }
 });

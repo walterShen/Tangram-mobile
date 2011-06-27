@@ -5,10 +5,11 @@
 
 ///import baidu.ui.createUI;
 ///import baidu.event.tap;
-///import baidu.dom.setStyles;
-///import baidu.dom._styleFilter.px;
-///import baidu.fx.fade;
-///import baidu.dom.hide;
+///import baidu.dom.$setStyles;
+///import baidu.ui.Base.on;
+///import baidu.ui.Base.each;
+///import baidu.ui.$getRoles;
+
 
 /**
  * 弹出层
@@ -28,20 +29,12 @@ baidu.ui.Popup = baidu.ui.createUI(function() {
 
     zIndex: 999,
 
-    showFx: baidu.fx.fade,
-    
-    hideFx: baidu.fx.fade,
-
     /**
      * 数据初始化
      * @private
      */
     _setup: function() {
-        var me = this,
-            element = me.element;
-
-        baidu.ui.Base._setup.call(me);
-        me.dispatchEvent('setup');
+        this.dispatchEvent('setup');
     },
 
     /**
@@ -51,8 +44,6 @@ baidu.ui.Popup = baidu.ui.createUI(function() {
     _init: function() {
         var me = this,
             element = me.element;
-        
-        baidu.ui.Base._init.call(me);
         
         baidu.dom.setStyles(element, {
             'display': 'none',
@@ -67,7 +58,8 @@ baidu.ui.Popup = baidu.ui.createUI(function() {
         me.each('cancel', function(item, i){
             me.on(item.element, 'tap', '_onCancel');
         });
-
+		
+		me.on(window, 'turn', '_onTurn');
         me.dispatchEvent('onload');
     },
 
@@ -78,8 +70,8 @@ baidu.ui.Popup = baidu.ui.createUI(function() {
     _setPostion: function() {
         var me = this,
             element = me.element,
-            left = ( window.innerWidth - element.offsetWidth) / 2,
-            top = ( window.innerHeight - element.offsetHeight ) / 2;
+            left = ( window.innerWidth - element.offsetWidth) / 2 + 'px',
+            top = ( window.innerHeight - element.offsetHeight ) / 2 + 'px';
 
         baidu.dom.setStyles(element, {'top': top, 'left': left});
     },
@@ -89,8 +81,7 @@ baidu.ui.Popup = baidu.ui.createUI(function() {
      * @private
      */
     _onTurn: function(e) {
-       var me = this;
-       
+       var me = this;      
        me._setPostion();
        me.fire('turn', e);
     },
@@ -99,42 +90,19 @@ baidu.ui.Popup = baidu.ui.createUI(function() {
      * 显示弹出层
      */
     open: function() {
-        var me = this,
-            element = me.element;
-        
-        element.style.display = 'block';
+        var me = this;
+        me.element.style.display = 'block';
         me._setPostion();
-        
-        me.dispatchEvent('beforeopen');
-        
-        me.showFx(element, {
-            'duration': 800,
-            'out': false,
-            'onfinish': function(){
-                me.dispatchEvent('open');
-            } 
-        });
+        me.dispatchEvent('open');
     },
     
     /**
      * 关闭弹出层
-     * @param {Function} fn 回调函数
      */
-    close: function(fn) {
-        var me = this,
-            element = me.element;
-        
-        me.dispatchEvent('beforeclose');
-        
-        me.hideFx(element, {
-            'duration': 500,
-            'out': true, 
-            'onfinish': function(){
-               baidu.dom.hide(element);
-               me.dispatchEvent('close');
-               fn && fn();
-            }
-       });
+    close: function() {
+        var me = this;
+		me.element.style.display = 'none';
+        me.dispatchEvent('close');
     },
     
     /**
@@ -143,9 +111,8 @@ baidu.ui.Popup = baidu.ui.createUI(function() {
      */
     _onOk: function(){
         var me = this;
-        me.close(function(){
-            me.dispatchEvent('ok');
-        });
+        me.close();
+        me.dispatchEvent('ok');
     },
     
     /**
@@ -154,8 +121,7 @@ baidu.ui.Popup = baidu.ui.createUI(function() {
      */
     _onCancel: function(){
         var me = this;
-        me.close(function(){
-            me.dispatchEvent('cancel');
-        });
+        me.close();
+        me.dispatchEvent('cancel');
     }
 });
