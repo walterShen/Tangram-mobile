@@ -11,10 +11,10 @@
  * @remark 此插件一次只能展示一张图片
  */
 baidu.ui.Carousel.extend({
-	duration: 600,
-
+	duration: 300,
+	
 	isEnableMoved: function(index, direction) {
-		if(index == this.activeIndex || this._moving)
+		if(index == this.activeIndex)
 			return false;
 
 		return true;
@@ -68,22 +68,19 @@ baidu.ui.Carousel.extend({
 		if(me.isEnableMoved(index, direction)) {
 			me.dispatchEvent("beforeswipe");
 
-			me._moving = true;
-
 			baidu.dom.setStyle(items[index], 'display', 'block');
 
 			me.slide(items[me.activeIndex], {
 				out: true,
 				duration: me.duration,
 				direction: direction,
-				delay: 10
+				delay: 5
 			});
 
 			me.slide(items[index], {
 				direction: direction,
 				duration: me.duration,
 				onfinish: function() {
-					me._moving = false;
 					items[me.lastActiveIndex].style.display = 'none';
 					me.dispatchEvent("slide");
 				}

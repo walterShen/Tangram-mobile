@@ -5,7 +5,7 @@
 
 ///import baidu.ui.createUI;
 ///import baidu.dom.children;
-///import baidu.dom.$setStyle;
+///import baidu.dom.$setStyles;
 ///import baidu.array.$each;
 ///import baidu.event.swipe;
 ///import baidu.ui.Base.on;
@@ -58,7 +58,10 @@ baidu.ui.Carousel = baidu.ui.createUI( function() {
             element = me.element,
             content = me.content;
             
-        baidu.dom.setStyle(element, "overflow", "hidden");
+        baidu.dom.setStyles(element, {
+        	"position": "relative",
+        	"overflow": "hidden"
+        });
         
         baidu.array.each(me.items, function(item, i){
         	baidu.dom.setStyle(item, 'position', 'absolute');

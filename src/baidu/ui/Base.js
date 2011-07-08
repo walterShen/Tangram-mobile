@@ -7,7 +7,6 @@
 ///import baidu.dom.$remove;
 ///import baidu.lang.guid;
 ///import baidu.lang._instances;
-///import baidu.ui.Base.dispatchEvent;
 
 baidu.ui.Base = function(guid) {
     this.guid = guid || baidu.lang.guid();
