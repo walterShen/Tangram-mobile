@@ -166,7 +166,7 @@
     baidu.event.fire = function(element, type, options){
         var evnt, compatEvent;
         type = type.replace(/^on/i, "");
-        element = baidu.dom._g(element);
+        element = baidu.dom.g(element);
         options = baidu.object.extend({
             bubbles : true,
             cancelable : true,

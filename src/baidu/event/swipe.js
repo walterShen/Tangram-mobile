@@ -9,9 +9,7 @@
 ///import baidu.browser.android;
 
 //左右滑动n像素触发swipe事件
-baidu.event.swipeTiggerThreshold = 35;
-//上下滑动超过n像素不触发swipe事件
-baidu.event.swipeCancelThreshold = 70;
+baidu.event.swipeTiggerThreshold = 20;
 
 /**
  * 触摸滑动事件
@@ -26,7 +24,6 @@ baidu.event.swipeCancelThreshold = 70;
  */
 baidu.event.swipe = function (elem, listener) {
     var tiggerThreshold = baidu.event.swipeTiggerThreshold,
-        cancelThreshold = baidu.event.swipeCancelThreshold,
         startX, startY,
         deltaX,
         distanceX, distanceY,
@@ -56,7 +53,7 @@ baidu.event.swipe = function (elem, listener) {
                 }
             },
             touchend : function (e) {
-                if(distanceX >= tiggerThreshold && distanceY <= cancelThreshold) {
+                if(distanceX >= tiggerThreshold || distanceX/deltaTime >= 0.36) {
                     touch["direction"] = (deltaX < 0) ? 'left' : 'right';
                     touch["distance"] = distanceX;
                     touch["delta"] = deltaX;

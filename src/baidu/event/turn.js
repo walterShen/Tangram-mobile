@@ -34,7 +34,7 @@ baidu.event.turn = function (elem, listener) {
     }
 
     //Android2.1以下版本不支持orientationchange事件，用resize模拟
-    var handlers = "orientation" in window ?
+    var handlers = "onorientationchange" in window ?
     {
         orientationchange : function(e) {
             switch(window.orientation) {
@@ -64,7 +64,9 @@ baidu.event.turn = function (elem, listener) {
                 e.turned = false;
                 e.orientation = 'portrait';
             }
-            fn(e);
+            setTimeout( function() {
+                fn(e);
+            }, 200);
         }
     }
 
