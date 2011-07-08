@@ -11,7 +11,7 @@
  * @return {String = 'portrait' || 'landscape'} 
  */
 baidu.page.getOrientation = function() {
-    if ("orientation" in window) {
+    if ("onorientationchange" in window) {
         return (window.orientation == 0 || window.orientation == 180) ? 'portrait' : 'landscape';
     } else {
         return (window.innerHeight > window.innerWidth) ? 'portrait' : 'landscape';
