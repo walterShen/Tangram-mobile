@@ -18,7 +18,6 @@
 baidu.fx.slide = function(elem, options) {
     var
         options = options || {},
-        elem = baidu.dom.g(elem),
         
         direction = options.direction || "left",
         out = options.out,
