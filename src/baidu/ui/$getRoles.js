@@ -4,7 +4,7 @@
  */
 
 ///import baidu.dom.$query;
-///import ui;
+///import baidu.ui;
 
 /**
  * 获取元素所在的控件下所有或制定的role
