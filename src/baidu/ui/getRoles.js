@@ -7,7 +7,7 @@
 ///import baidu.dom.$query;
 ///import baidu.dom.$g;
 ///import baidu.object.extend;
-///import baidu.array.contains;
+///import baidu.array.$indexOf;
 
 /**
  * 获取元素所在的控件下所有或制定的role的所有属性
@@ -38,7 +38,7 @@ baidu.ui.getRoles = function(element, role) {
         i;
 
     for(i=0;tempElement = allElements[i];i++) {
-        if(!baidu.array.contains(otherElements, tempElement)) {
+        if(!baidu.array.indexOf(otherElements, tempElement)) {
             role = tempElement.getAttribute('t-role');
             attr = baidu.object.extend({
                 element: tempElement

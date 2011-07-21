@@ -7,7 +7,7 @@
 ///import baidu.dom.$insertHTML;
 ///import baidu.dom.$setStyles;
 ///import baidu.fx.$slide;
-///import baidu.ajax.$get;
+///import baidu.ajax.get;
 ///import baidu.event.turn;
 ///import baidu.ui.Base.on;
 ///import baidu.ui.Base.fire;

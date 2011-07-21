@@ -5,7 +5,6 @@
 
 ///import baidu.ui.Page;
 ///import baidu.ui.$get;
-///import baidu.ui.$g;
 ///import baidu.ui.Base.addEventListener;
 ///import baidu.ui.Base.each;
 ///import baidu.ui.Base.on;

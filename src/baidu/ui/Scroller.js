@@ -3,7 +3,7 @@
 * Copyright 2011 Baidu Inc. All rights reserved.
 */
 
-///import baidu.dom.s$etStyles;
+///import baidu.dom.$setStyles;
 ///import baidu.fx.$getTranslate;
 ///import baidu.ui.$getRoles;
 ///import baidu.browser.isSupportTouch;

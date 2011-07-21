@@ -7,7 +7,7 @@
 ///import baidu.ui.Listview;
 ///import baidu.ui.$get;
 ///import baidu.dom.$g;
-///import baidu.ui.getParentUI;
+///import baidu.ui.Base.getParentUI;
 ///import baidu.event.tap;
 ///import baidu.ui.Base.on;
 ///import baidu.ui.Base.addEventListener;
