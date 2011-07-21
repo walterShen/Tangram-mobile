@@ -40,7 +40,9 @@ function importTangram($files, $returnFile = true){
     global $MATCHED, $DEBUG, $IMPORTED;
 
     $output = "";
-
+    
+    header("Content-type: text/javascript; charset=utf-8");
+    
     if(is_string($files)){
         $files = array($files);
     }else if(!is_array($files)){
@@ -56,10 +58,7 @@ function importTangram($files, $returnFile = true){
         }else{
             $IMPORTED[] = $file;
 
-//            echo "file name:".$file."\n";
             $file = str_replace(".", '/', $file) . ".js";
-  //          echo "file name:".$file."\n";
-    //        echo "\n";
 
             if($DEBUG)
                 echo "Importing: " . $file . ", returnFile $returnFile\n";
