@@ -4,6 +4,7 @@
 *
 */
 
+///import baidu.event;
 ///import baidu.browser.isSupportTouch;
 ///import baidu.browser.android;
 
