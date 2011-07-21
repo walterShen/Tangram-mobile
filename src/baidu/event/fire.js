@@ -3,7 +3,7 @@
  * Copyright 2011 Baidu Inc. All rights reserved.
  */
 ///import baidu.event.getCompat;
-///import baidu.dom._g;
+///import baidu.dom.g;
 ///import baidu.object.extend;
 ///import baidu.object.values;
 ///import baidu.lang.isNumber;

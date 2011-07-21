@@ -3,11 +3,8 @@
  * Copyright 2011 Baidu Inc. All rights reserved.
  */
 
-///import baidu.ui.getAttribute;
 ///import baidu.dom.$query;
-///import baidu.dom.$g;
-///import baidu.object.extend;
-///import baidu.array.contains;
+///import ui;
 
 /**
  * 获取元素所在的控件下所有或制定的role

@@ -4,7 +4,7 @@
  * 
  */
 
-///import baidu.dom._g;
+///import baidu.dom.g;
 
 /**
  * 将目标元素添加到基准元素之前
@@ -20,7 +20,7 @@
  */
 baidu.dom.insertBefore = function (newElement, existElement) {
     var g, existParent;
-    g = baidu.dom._g;
+    g = baidu.dom.g;
     newElement = g(newElement);
     existElement = g(existElement);
     existParent = existElement.parentNode;
